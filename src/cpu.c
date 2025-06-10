@@ -115,6 +115,27 @@ void opcode_decoder(uint16_t opcode, cpu_t *cpu, video_t *video)
 
 			cpu->sys_reg[reg1_idx] = cpu->sys_reg[reg1_idx] - cpu->sys_reg[reg2_idx];
 			break;
+		case 0x0006:
+			if ((cpu->sys_reg[reg1_idx] & 1) == 1) {
+				cpu->sys_reg[0xF] = 1;
+			} else {
+				cpu->sys_reg[0xF] = 0;
+			}
+
+			cpu->sys_reg[reg1_idx] >>= 1;
+			break;
+		case 0x0007:
+			if (cpu->sys_reg[reg2_idx] > cpu->sys_reg[reg1_idx]) {
+				cpu->sys_reg[0xF] = 1;
+			} else {
+				cpu->sys_reg[0xF] = 0;
+			}
+
+			cpu->sys_reg[reg1_idx] = cpu->sys_reg[reg2_idx] - cpu->sys_reg[reg1_idx];
+			break;
+		case 0x000E:
+			// TODO
+			break;
 		}
 
 		break;
@@ -123,6 +144,9 @@ void opcode_decoder(uint16_t opcode, cpu_t *cpu, video_t *video)
 		cpu->I = opcode & 0x0FFF;
 		break;
 	case 0xD000: {
+		// TODO
+		// - collision
+		// - prevent render far beyond window size
 		uint8_t sprite_height = (uint8_t)(opcode & 0x00F);
 		uint16_t sprite_loc = cpu->I;
 		uint8_t reg1_idx = (uint8_t)(opcode & 0x0F00);
