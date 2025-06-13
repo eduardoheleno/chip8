@@ -11,8 +11,8 @@ typedef struct video {
 	SDL_Renderer *renderer;
 } video_t;
 
-void init_video(video_t *video);
-void render_sprite(SDL_Renderer *r,
+void video_init(video_t *video);
+void video_render_sprite(SDL_Renderer *r,
 				   uint8_t *sys_ram,
 				   uint8_t sprite_height,
 				   uint16_t sprite_loc,

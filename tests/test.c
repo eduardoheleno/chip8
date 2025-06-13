@@ -16,6 +16,7 @@ void test_0x84b3();
 void test_0x8564();
 void test_0x8785();
 void test_0x8236();
+void test_0x867e();
 
 int main(void)
 {
@@ -33,6 +34,7 @@ int main(void)
 	test_0x8564();
 	test_0x8785();
 	test_0x8236();
+	test_0x867e();
 
 	return 0;
 }
@@ -230,6 +232,39 @@ void test_0x8236()
 	cpu.sys_reg[2] = 21;
 
 	opcode_decoder(opcode, &cpu, &video);
+
+	if (cpu.sys_reg[0xF] == 1 && cpu.sys_reg[2] == 10) {
+		printf("test_0x8236................passed\n");
+	} else {
+		printf("test_0x8236................failed\n");
+	}
+	init_cpu(&cpu);
+
+	cpu.sys_reg[2] = 26;
+
+	opcode_decoder(opcode, &cpu, &video);
+
+	if (cpu.sys_reg[0xF] == 0 && cpu.sys_reg[2] == 13) {
+		printf("test_0x8236(2).............passed\n");
+	} else {
+		printf("test_0x8236(2).............failed\n");
+	}
+
+	init_cpu(&cpu);
+}
+
+void test_0x867e()
+{
+	uint16_t opcode = 0x867E;
+	cpu.sys_reg[6] = 128;
+
+	opcode_decoder(opcode, &cpu, &video);
+
+	if (cpu.sys_reg[0xF] == 1 && cpu.sys_reg[6] == 0) {
+		printf("test_0x867E................passed\n");
+	} else {
+		printf("test_0x867E................failed\n");
+	}
 
 	init_cpu(&cpu);
 }
